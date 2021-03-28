@@ -4,7 +4,7 @@ import { Container, Nav } from 'react-bootstrap';
 
 const Footer = () => {
   return (
-    <div className="border-top border-color-light">
+    <div className="border-top border-color-light shadow">
     <Container>
       <Nav className="py-5 align-items-stretch text-light">
         <Nav defaultActiveKey="/home" className="flex-column mr-5 justify-content-between">

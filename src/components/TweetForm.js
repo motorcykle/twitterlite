@@ -7,7 +7,7 @@ const TweetForm = () => {
   const [tweetData, setTweetData] = useState('');
 
   return (
-    <div className="w-75 p-3 rounded border bg-secondary border-color-light">
+    <div className="w-75 p-3 rounded border bg-secondary border-color-light shadow mx-auto">
       <Form inline className="p-0" onSubmit={(e) => {
         e.preventDefault();
         if (!tweetData) return;

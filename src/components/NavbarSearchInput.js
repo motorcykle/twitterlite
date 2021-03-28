@@ -23,7 +23,7 @@ const NavbarSearchInput = () => {
         type="text" 
         name="usersearch" 
         id="usersearch" 
-        placeholder="Search for user..." className="mr-sm-2 bg-dark"
+        placeholder="Search for user..." className="mr-sm-2 bg-dark shadow"
         />
       </Form>
       {(searchMode) && <div

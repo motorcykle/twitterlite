@@ -10,7 +10,7 @@ const Homepage = () => {
 
   return (
     <div className="flex-fill py-4">
-      <Container className="d-flex flex-column align-items-center">
+      <Container className="d-flex flex-column">
       <TweetForm />
       <TweetDeck />
       </Container>

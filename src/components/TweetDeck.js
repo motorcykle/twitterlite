@@ -1,9 +1,15 @@
 import React from 'react';
+import Tweet from './Tweet';
 
 const TweetDeck = () => {
   return (
-    <div>
-      
+    <div className="my-4">
+      <Tweet />
+      <Tweet />
+      <Tweet />
+      <Tweet />
+      <Tweet />
+      <Tweet />
     </div>
   );
 }
