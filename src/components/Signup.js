@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Axios from '../Axios';
 import { Form, Button } from 'react-bootstrap';
 
 const Signup = ({ setMethod }) => {
@@ -9,11 +10,11 @@ const Signup = ({ setMethod }) => {
 
   const usernameCheck = async () => {
     try {
-      const usernameRes = await axios.get(`/api/users/search/${username}`);
+      const usernameRes = await Axios.get(`/api/users/search/${username}`);
       if (usernameRes.data) {
         alert("Username is taken.")
       } else {
-        await axios.post('/api/users/register', { name, username, password })
+        await Axios.post('/api/users/register', { name, username, password })
         setName('');
         setUsername('');
         setPassword('');

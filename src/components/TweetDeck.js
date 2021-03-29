@@ -1,15 +1,10 @@
 import React from 'react';
 import Tweet from './Tweet';
 
-const TweetDeck = () => {
+const TweetDeck = ({ list }) => {
   return (
     <div className="my-4">
-      <Tweet />
-      <Tweet />
-      <Tweet />
-      <Tweet />
-      <Tweet />
-      <Tweet />
+      {/* {list && list.map(tweet => (<Tweet key={tweet._id} data={tweet} />))} */}
     </div>
   );
 }
