@@ -2,9 +2,12 @@ import React, { useState } from 'react';
 import Axios from '../Axios';
 import { Form, FormControl } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
+import { selectUser } from '../features/appSlice';
+import { useSelector } from 'react-redux';
 
 const NavbarSearchInput = () => {
   const history = useHistory();
+  const currUser = useSelector(selectUser);
   const [searchMode, setSearchMode] = useState(false);
   const [inside, setInside] = useState(false);
   const [usersFound, setUsersFound] = useState([]);
@@ -12,9 +15,8 @@ const NavbarSearchInput = () => {
   // fetch and set usrs found
   const fetchUsers = async (query) => {
     try {
-      console.log(query)
       if (query.length >= 3) {
-        const searchRes = await Axios.get(`/users/search/users/${query}`);
+        const searchRes = await Axios.get(`/api/users/search/users/${query}`);
         setUsersFound(searchRes.data);
       } else {
         setUsersFound([]);
@@ -48,10 +50,14 @@ const NavbarSearchInput = () => {
         className="users__found position-absolute w-100 p-2 mt-2 rounded bg-secondary">
           {usersFound && usersFound?.map(user => (
             <div key={user._id} onClick={() => {
-              history.push(`/profile/${user.username}`)
+              if (currUser.username === user.username) {
+                history.push(`/profile`)
+              } else {
+                history.push(`/profile/${user.username}`)
+              }
               setSearchMode(false)
-            }} className="userFound mt-2 p-1 rounded bg-gray-400">
-              <p>@{user.username}</p>
+            }} className="userFound mt-2 rounded bg-light" role="button">
+              <p className="m-1">@{user.username}</p>
             </div>
           ))}
         </div>}

@@ -11,7 +11,7 @@ export const appSlice = createSlice({
     setUser: (state, action) => {state.user = action.payload},
     setToken: (state, action) => {state.token = action.payload},
     removeToken: (state) => {state.token = null},
-    removeUser: state => {state.user = null}
+    removeUser: state => {state.user = null},
   },
 });
 

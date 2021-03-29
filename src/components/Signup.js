@@ -10,11 +10,11 @@ const Signup = ({ setMethod }) => {
 
   const usernameCheck = async () => {
     try {
-      const usernameRes = await Axios.get(`/api/users/search/${username}`);
+      const usernameRes = await Axios.get(`/api/users/search/${username.toLowerCase()}`);
       if (usernameRes.data) {
         alert("Username is taken.")
       } else {
-        await Axios.post('/api/users/register', { name, username, password })
+        await Axios.post('/api/users/register', { name, username: username.toLowerCase(), password })
         setName('');
         setUsername('');
         setPassword('');

@@ -6,10 +6,14 @@ import FaceIcon from '@material-ui/icons/Face';
 import './NavbarUserPopover.css'
 import { RecentActorsOutlined } from '@material-ui/icons';
 import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { removeToken, removeUser } from '../features/appSlice';
+import { removeHomeTweets } from '../features/tweetSlice';
 
 
 const NavbarUserPopover = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const [show, setShow] = useState(false);
 
   return (
@@ -30,7 +34,7 @@ const NavbarUserPopover = () => {
           className="rounded-circle shadow"
           height="35"
           width="auto"
-          src="https://www.qvphysiotherapy.com/wp-content/uploads/2018/12/profile-placeholder.png"
+          src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
         />
       </Button>
 
@@ -41,7 +45,12 @@ const NavbarUserPopover = () => {
           <FaceIcon /> Your profile
         </ListGroup.Item>
         
-        <ListGroup.Item action className="bg-secondary text-light" onClick={() => console.log("LOGOUT")}>
+        <ListGroup.Item action className="bg-secondary text-light" onClick={() => {
+          history.replace('/');
+          dispatch(removeUser());
+          dispatch(removeToken());
+          dispatch(removeHomeTweets());
+        }}>
           <ExitToAppIcon /> Logout
         </ListGroup.Item>
       </ListGroup>
