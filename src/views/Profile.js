@@ -5,7 +5,7 @@ import TweetDeck from '../components/TweetDeck';
 import EditIcon from '@material-ui/icons/Edit';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { followUser, selectUser } from '../features/appSlice';
+import { followUser, selectUser, unfollowUser } from '../features/appSlice';
 import { fetchTweets, removeTweets, selectTweets } from '../features/tweetSlice';
 
 const Profile = () => {
@@ -57,7 +57,13 @@ const Profile = () => {
             <div className="profile__btns">
               {username === user.username || <Button 
               variant="primary mr-2"
-              onClick={() => dispatch(followUser(username))}
+              onClick={() => {
+                if (foundUser?.followers.find(username => username === user.username)) {
+                  dispatch(unfollowUser(username))
+                } else {
+                  dispatch(followUser(username))
+                }
+              }}
               > 
               
                 {foundUser?.followers.find(username => username === user.username) ? 'Unfollow' : 'Follow'}

@@ -7,5 +7,6 @@ router.get('/search/users/:query', usersMethods.searchUsers);
 router.post('/register', usersMethods.registerUser);
 router.post('/login', usersMethods.loginUser);
 router.patch('/follow/:type/:username', usersMethods.followTypeChange);
+router.patch('/unfollow/:type/:username', usersMethods.unfollowTypeChange);
 
 module.exports = router;

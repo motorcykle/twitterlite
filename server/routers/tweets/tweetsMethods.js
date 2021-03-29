@@ -26,12 +26,35 @@ module.exports = {
       })
   },
   
+  deleteRetweet (req, res) {
+    // router.post('/deleteretweet/:tweetId/:userId', verifyToken,  )
+    Tweet.deleteOne({ 'user._id': req.params.userId, 'tweetType.data.originalTweet._id': req.params.tweetId })
+      .then(data => {
+        res.status(200).json(data)
+      }).catch(err => {
+        res.status(500).json(err)
+      })
+  },
+  
   changeTweetByInc (req, res) {
     // router.patch('/inc/:tweetId/:type', verifyToken,  )
     // SET SHOULD ONLY BE DONE ONCE WITH USERNAME
     Tweet.updateOne(
       { _id: req.params.tweetId },
-      { $addToSet: { [req.params.type == 'retweet' ? 'retweeters' : 'likers']: req.body.username } }
+      { $addToSet: { [req.params.type]: req.body.username } }
+    ).then(data => {
+      res.status(200).json(data);
+    }).catch(err => {
+      res.status(500).json(err);
+    })
+  },
+  
+  changeTweetByDec (req, res) {
+    // router.patch('/dec/:tweetId/:type', verifyToken,  )
+    // SET SHOULD ONLY BE DONE ONCE WITH USERNAME
+    Tweet.updateOne(
+      { _id: req.params.tweetId },
+      { $pull: { [req.params.type]: req.body.username } }
     ).then(data => {
       res.status(200).json(data);
     }).catch(err => {

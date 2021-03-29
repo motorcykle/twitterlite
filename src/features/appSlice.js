@@ -40,6 +40,19 @@ export const followUser = username => async (dispatch, getState) => {
   }
 };
 
+export const unfollowUser = username => async (dispatch, getState) => {
+  try {
+    await Axios.patch(`/api/users/unfollow/following/${getState().app.user.username}`, {
+      username
+    });
+    await Axios.patch(`/api/users/unfollow/followers/${username}`, {
+      username: getState().app.user.username
+    });
+  } catch (error) {
+    console.error(error)
+  }
+};
+
 export const selectUser = state => state.app.user;
 export const selectToken = state => state.app.token;
 

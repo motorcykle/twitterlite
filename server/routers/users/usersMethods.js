@@ -71,5 +71,15 @@ module.exports = {
     )
       .then(data => res.status(201).json(data))
       .catch(err => console.error(err));
-  }
+  },
+
+  unfollowTypeChange (req, res) {
+    // router.patch('/unfollow/:type/:username', )
+    User.updateOne(
+      { username: req.params.username }, 
+      { $pull: { [req.params.type]: req.body.username } }
+    )
+      .then(data => res.status(201).json(data))
+      .catch(err => console.error(err));
+  },
 }

@@ -23,7 +23,7 @@ export const createTweet = tweetData => async (dispatch, getState) => {
     await Axios.post(`/api/tweets/create`, {
       user: { name, username, _id, profileImage },
       text: tweetData.text,
-      tweetType: tweetData.type || 'normal'
+      tweetType: tweetData.type || {type: 'normal', data: {}}
     }, {
       headers: { authorization: `Bearer ${getState().app.token}` }
     });
@@ -55,6 +55,39 @@ export const fetchTweets = (username) => async (dispatch, getState) => {
     console.error(error)
   }
 };
+
+export const likeOrRetweet = ({ type, tweet }) => async (dispatch, getState) => {
+  try {
+    await Axios.patch(`/api/tweets/inc/${tweet._id}/${type}`, {
+      username: getState().app.user.username,
+    }, {
+      headers: { authorization: `Bearer ${getState().app.token}` }
+    });
+    if (type === 'retweeters') dispatch(createTweet({ text: tweet.text, type: {type: 'retweet', data: { originalTweet: { user: tweet.user, _id: tweet._id } }} }))
+    
+  } catch (error) {
+    console.error(error)
+  }
+};
+
+export const unlikeOrUnRetweet = ({ type, tweet }) => async (dispatch, getState) => {
+  try {
+    await Axios.patch(`/api/tweets/dec/${tweet._id}/${type}`, {
+      username: getState().app.user.username,
+    }, {
+      headers: { authorization: `Bearer ${getState().app.token}` }
+    });
+    if (type === 'retweeters') {
+      await Axios.delete(`/api/tweets/deleteretweet/${tweet._id}/${getState().app.user._id}`, {
+        headers: { authorization: `Bearer ${getState().app.token}` }
+      })
+    }
+    
+  } catch (error) {
+    console.error(error)
+  }
+};
+
 
 // export const likeOrRetweet = ({ type, tweet }) => {
 //   return async (dispatch, getState) => {
