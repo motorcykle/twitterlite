@@ -67,7 +67,7 @@ const Profile = () => {
             </div>
           </div>
         </div>
-        <TweetDeck list={tweets} />
+        <TweetDeck list={[...tweets].reverse()} />
       </Container>
     </div>
   );

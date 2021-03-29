@@ -17,7 +17,7 @@ const Homepage = () => {
     <div className="flex-fill py-4">
       <Container className="d-flex flex-column">
       <TweetForm />
-      <TweetDeck list={hometweets} />
+      <TweetDeck list={[...hometweets].sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()).reverse()} />
       </Container>
     </div>
   );
