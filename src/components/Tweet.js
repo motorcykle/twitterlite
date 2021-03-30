@@ -3,16 +3,25 @@ import { Image, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { likeOrRetweet, unlikeOrUnRetweet } from '../features/tweetSlice';
 import { selectUser } from '../features/appSlice';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import './Tweet.css';
 
 const Tweet = ({ data }) => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
+  const [likers, setLikers] = useState([]);
+  const [retweeters, setRetweeters] = useState([]);
 
-  const liked = data?.likers.find(username => username === user.username);
-  const retweeted = data?.retweeters.find(username => username === user.username);
+  useEffect(() => {
+    if (data) {
+      setLikers(data.likers)
+      setRetweeters(data.retweeters)
+    }
+  }, [data]);
+
+  const liked = likers.find(username => username === user.username);
+  const retweeted = retweeters.find(username => username === user.username);
 
   const tweetsARetweet = data?.tweetType.type === 'retweet';
 
@@ -35,23 +44,28 @@ const Tweet = ({ data }) => {
         {tweetsARetweet || (
         <>
         <div className="tweet__likeSec mr-5 d-flex align-items-center">
-          <span className="tweet__likesNum">{data.likers.length} </span>
+          <span className="tweet__likesNum">{likers.length} </span>
           <Button variant="transparent" onClick={() => {
             if (liked) {
               dispatch(unlikeOrUnRetweet({ type: 'likers', tweet: data }))
+              setLikers(prev => prev.filter(username => username !== user.username))
             } else {
               dispatch(likeOrRetweet({ type: 'likers', tweet: data }))
+              setLikers(prev => [...prev, user.username])
             }
           }}><Favorite className={liked ? "text-danger" : "text-secondary"} /></Button>
         </div>
         <div className="tweet__likeSec mr-5 d-flex align-items-center">
-          <span className="tweet__likesNum">{data.retweeters.length} </span>
+          <span className="tweet__likesNum">{retweeters.length} </span>
           <Button variant="transparent" onClick={() => {
             if (retweeted) {
               dispatch(unlikeOrUnRetweet({ type: 'retweeters', tweet: data }))
+              setRetweeters(prev => prev.filter(username => username !== user.username))
             } else {
               dispatch(likeOrRetweet({ type: 'retweeters', tweet: data }))
+              setRetweeters(prev => [...prev, user.username])
             }
+            
           }}><Repeat className={retweeted ? "text-success" : "text-secondary"} /></Button>
         </div>
         </>

@@ -82,28 +82,11 @@ export const unlikeOrUnRetweet = ({ type, tweet }) => async (dispatch, getState)
         headers: { authorization: `Bearer ${getState().app.token}` }
       })
     }
-    
   } catch (error) {
     console.error(error)
   }
 };
 
-
-// export const likeOrRetweet = ({ type, tweet }) => {
-//   return async (dispatch, getState) => {
-//     try { // HERE WE ARE BROSKI!!!!!!!!!!
-//       await axios.patch(`/tweets/inc/${tweet._id}/${type}`, {
-//         username: getState().userSlice.user.username,
-//       }, {
-//         headers: { authorization: `Bearer ${getState().userSlice.token}` }
-//       });
-//       if (type === 'retweet') dispatch(createTweet({ text: tweet.text, type: 'retweet' }))
-//       dispatch(fetchHometweets())
-//     } catch (error) {
-//       console.error(error)
-//     }
-//   }
-// }
 
 export const selectHomeTweets = state => state.tweet.hometweets;
 export const selectTweets = state => state.tweet.tweets;

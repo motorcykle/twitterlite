@@ -18,19 +18,26 @@ const Profile = () => {
 
   const username = params.username || user.username;
 
+  const fetchUserData = async () => {
+    try {
+      console.log("hello")
+      const usernameRes = await Axios.get(`/api/users/search/${username.toLowerCase()}`);
+      if (usernameRes.data) {
+        setFoundUser(usernameRes.data);
+      } else {
+        history.replace('/')
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   // if not this user change fetch info
   useEffect(() => {
     if (username !== user.username) {
-      (async () => {
-        const usernameRes = await Axios.get(`/api/users/search/${username.toLowerCase()}`);
-        if (usernameRes.data) {
-          setFoundUser(usernameRes.data);
-        } else {
-          history.replace('/')
-        }
-      })()
+      fetchUserData()
     }
-  }, [])
+  }, [username])
 
   useEffect(() => {
     dispatch(fetchTweets(username))
@@ -60,8 +67,10 @@ const Profile = () => {
               onClick={() => {
                 if (foundUser?.followers.find(username => username === user.username)) {
                   dispatch(unfollowUser(username))
+                  setFoundUser(prev => ({...prev, followers: prev.followers.filter(username => username !== user.username)}))
                 } else {
                   dispatch(followUser(username))
+                  setFoundUser(prev => ({...prev, followers: [...prev.followers, user.username]}))
                 }
               }}
               > 
